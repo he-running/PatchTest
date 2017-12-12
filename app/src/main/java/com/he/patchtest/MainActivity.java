@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tv_merge;
     private TextView tv_tip;
 
+    private RelativeLayout rl_progress;
+
     private DiffAsyncTask diffAsyncTask;
     private MergeAsyncTask mergeAsyncTask;
 
@@ -47,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tv_diff= (TextView) findViewById(R.id.tv_diff);
         tv_merge= (TextView) findViewById(R.id.tv_merge);
 
+        rl_progress= (RelativeLayout) findViewById(R.id.rl_progress);
+
         diffAsyncTask=new DiffAsyncTask();
         mergeAsyncTask=new MergeAsyncTask();
 
@@ -60,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        rl_progress.setVisibility(View.VISIBLE);
         switch (v.getId()){
             case R.id.btn_diff:
                 showToast("开始生成差分包，请稍候...");
@@ -103,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(Boolean o) {
+            rl_progress.setVisibility(View.GONE);
             btn_diff.setEnabled(true);
             if (o){
                 tv_diff.setText("diff succeed");
@@ -131,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(Boolean o) {
+            rl_progress.setVisibility(View.GONE);
             btn_merge.setEnabled(true);
             if (o){
                 if (newApkFile.exists()){
@@ -142,6 +150,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
-
 
 }
